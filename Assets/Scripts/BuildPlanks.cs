@@ -9,45 +9,95 @@ public class BuildPlanks : MonoBehaviour
 
     [Header("Planks")]
     public int amount = 3;
-    public float width = 1f;
-    public float height = 1f;
-    public float depth = 1f;
-    public float gap = 0.1f;
+    public float buildGap = 0f;
 
-    private Vector3 buildLocation;
-    private Rigidbody connectingObject;
+    private List<GameObject> bridgeParts = new List<GameObject>();
 
     void Start()
     {
-        buildLocation = anchorObject.transform.position + new Vector3(anchorObject.transform.localScale.x, 0, 0);
-        connectingObject = anchorObject.GetComponent<Rigidbody>();
-
-        CreateBridge();
-
-        GameObject endAnchor = Instantiate(anchorObject, buildLocation, Quaternion.identity);
-        endAnchor.AddComponent<HingeJoint>();
-        endAnchor.GetComponent<HingeJoint>().connectedBody = connectingObject;
-        endAnchor.GetComponent<HingeJoint>().axis = new Vector3(0, 0, 1);
-        endAnchor.GetComponent<BuildPlanks>().enabled = false;
+        CreateBridgeParts();
+        SetBridgePartLocations();
+        AddRigidBody();
+        AddJoints();
     }
 
-    public void CreateBridge()
+    public void CreateBridgeParts()
     {
+        bridgeParts.Add(Instantiate(anchorObject, transform));
+
         for (int i = 0; i < amount; i++)
         {
-            CreatePlank();
+            bridgeParts.Add(Instantiate(plankObject, transform));
+        }
+
+        bridgeParts.Add(Instantiate(anchorObject, transform));
+    }
+
+    public void SetBridgePartLocations()
+    {
+        Vector3 newLocation = transform.position;
+
+        bridgeParts[0].transform.position = newLocation;
+
+        newLocation += new Vector3(anchorObject.transform.localScale.x + plankObject.transform.localScale.x, 0, 0) / 2;
+        newLocation += new Vector3(buildGap, 0, 0);
+
+        for (int i = 1; i < bridgeParts.Count - 1; i++)
+        {
+            bridgeParts[i].transform.position = newLocation;
+
+            if (i != bridgeParts.Count - 2) 
+            {
+                newLocation += new Vector3(plankObject.transform.localScale.x, 0, 0);
+            }
+            else 
+            {
+                newLocation += new Vector3(anchorObject.transform.localScale.x + plankObject.transform.localScale.x, 0, 0) / 2;
+            }
+
+            newLocation += new Vector3(buildGap, 0, 0);
+        }
+
+        bridgeParts[bridgeParts.Count - 1].transform.position = newLocation;
+    }
+
+    public void AddRigidBody() 
+    {
+        for (int i = 0; i < bridgeParts.Count; i++)
+        {
+            GameObject bridgePart = bridgeParts[i];
+
+            Rigidbody rb = bridgePart.GetComponent<Rigidbody>();
+            if (rb == null) rb = bridgePart.AddComponent<Rigidbody>();
+
+            if (i == 0 || i == bridgeParts.Count - 1)
+            {
+                rb.useGravity = false;
+                rb.isKinematic = true;
+            }
+            else
+            {
+                rb.useGravity = true;
+                rb.isKinematic = false;
+            }
         }
     }
 
-    public void CreatePlank()
+    public void AddJoints()
     {
-        GameObject plank = Instantiate(plankObject, buildLocation, Quaternion.identity);
+        for (int i = 1; i < bridgeParts.Count; i++)
+        {
+            GameObject bridgePart = bridgeParts[i];
 
-        plank.transform.localScale = new Vector3(width, height, depth);
+            FixedJoint hj = bridgePart.GetComponent<FixedJoint>();
+            if (hj == null) hj = bridgePart.AddComponent<FixedJoint>();
 
-        plank.GetComponent<HingeJoint>().connectedBody = connectingObject;
+            GameObject prevBridgePart = bridgeParts[i - 1];
+            Rigidbody rb = prevBridgePart.GetComponent<Rigidbody>();
 
-        buildLocation += new Vector3(plank.transform.localScale.x + gap, 0, 0);
-        connectingObject = plank.GetComponent<Rigidbody>();
+            hj.connectedBody = rb;
+            hj.anchor = new Vector3(0, 0, 0);
+            hj.axis = new Vector3(0, 0, 1);
+        }
     }
 }
