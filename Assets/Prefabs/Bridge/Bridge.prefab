@@ -48,3 +48,5 @@ MonoBehaviour:
   plankObject: {fileID: 2551232910938941146, guid: 522a25b501659014cae841ad12009f12, type: 3}
   amount: 100
   buildGap: 0
+  usesGravity: 0
+  duration: 1
