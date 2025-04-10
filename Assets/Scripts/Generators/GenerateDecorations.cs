@@ -86,14 +86,15 @@ public class GenerateDecorations : MonoBehaviour
 
     public void ClearExistingObjects()
     {
-        //foreach (GameObject go in existingObjects)
-        //{
-        //    DestroyImmediate(go);
-        //}
-
-        foreach (Transform t in objectTypes)
+        List<GameObject> existingSections = new List<GameObject>();
+        foreach (Transform sections in transform)
         {
-            DestroyImmediate(t.gameObject);
+            existingSections.Add(sections.gameObject);
+        }
+
+        foreach (GameObject sections in existingSections)
+        {
+            DestroyImmediate(sections);
         }
 
         objectTypes.Clear();

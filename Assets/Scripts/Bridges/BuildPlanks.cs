@@ -48,29 +48,7 @@ public class BuildPlanks : MonoBehaviour
         }
     }
 
-    private void CreateBridgeSections()
-    {
-        GameObject anchorSection = new GameObject("Anchors");
-        GameObject plankSection = new GameObject("Planks");
-
-        anchorSection.transform.parent = plankSection.transform.parent = transform;
-
-        bridgeSections.Add(anchorSection.transform);
-        bridgeSections.Add(plankSection.transform);
-    }
-
-    private void CreateBridgeParts()
-    {
-        bridgeParts.Add(Instantiate(anchorObject, bridgeSections[(int)BSIndex.anchor]));
-
-        for (int i = 0; i < amount; i++)
-        {
-            bridgeParts.Add(Instantiate(plankObject, bridgeSections[(int)BSIndex.plank]));
-        }
-
-        bridgeParts.Add(Instantiate(anchorObject, bridgeSections[(int)BSIndex.anchor]));
-    }
-    private Vector3 GetObjectPosition(bool isAnchor)
+    private Vector3 AddBuildObjectPosition(bool isAnchor)
     {
         Vector3 position;
 
@@ -96,57 +74,96 @@ public class BuildPlanks : MonoBehaviour
         return position + new Vector3(buildGap, 0, 0);
     }
 
-    private void SetBridgePartLocations()
+    private void InstantiateBridgeSections()
     {
-        Vector3 newLocation = transform.position;
+        GameObject anchorSection = new GameObject("Anchors");
+        GameObject plankSection = new GameObject("Planks");
 
-        bridgeSections[(int)BSIndex.anchor].GetChild(0).position = newLocation;
+        anchorSection.transform.parent = plankSection.transform.parent = transform;
 
-        newLocation += GetObjectPosition(true);
-
-        for (int i = 1; i < bridgeParts.Count - 1; i++)
-        {
-            bridgeParts[i].transform.position = newLocation;
-
-            if (i != bridgeParts.Count - 2)
-            {
-                newLocation += GetObjectPosition(false);
-            }
-            else
-            {
-                newLocation += GetObjectPosition(true);
-            }
-        }
-
-        bridgeParts[bridgeParts.Count - 1].transform.position = newLocation;
+        bridgeSections.Add(anchorSection.transform);
+        bridgeSections.Add(plankSection.transform);
     }
 
+    private void InstantiateBridgeParts()
+    {
+        Vector3 buildPosition = transform.position;
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject plank = Instantiate(plankObject, bridgeSections[(int)BSIndex.plank]);
+
+            if (i == 0) buildPosition += AddBuildObjectPosition(true);
+            else buildPosition += AddBuildObjectPosition(false);
+
+            plank.transform.position = buildPosition;
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject anchor = Instantiate(anchorObject, bridgeSections[(int)BSIndex.anchor]);
+
+            if (i == 0) anchor.transform.position = transform.position;
+            else anchor.transform.position = buildPosition + AddBuildObjectPosition(true);
+        }
+    }
 
     private void AddRigidBody() 
     {
-        for (int i = 0; i < bridgeParts.Count; i++)
+        foreach (Transform anchor in bridgeSections[(int)(BSIndex.anchor)])
         {
-            GameObject bridgePart = bridgeParts[i];
-
-            Rigidbody rb = bridgePart.GetComponent<Rigidbody>();
-            if (rb == null) rb = bridgePart.AddComponent<Rigidbody>();
+            Rigidbody rb = anchor.gameObject.GetComponent<Rigidbody>();
+            if (rb == null) rb = anchor.gameObject.AddComponent<Rigidbody>();
 
             rb.useGravity = false;
             rb.isKinematic = true;
+        }
+
+        foreach (Transform plank in bridgeSections[(int)(BSIndex.plank)])
+        {
+            Rigidbody rb = plank.gameObject.GetComponent<Rigidbody>();
+            if (rb == null) rb = plank.gameObject.AddComponent<Rigidbody>();
+
+            if (usesGravity)
+            {
+                rb.useGravity = true;
+                rb.isKinematic = false;
+            }
+            else
+            {
+                rb.useGravity = false;
+                rb.isKinematic = true;
+            }
         }
     }
 
     private void AddJoints()
     {
-        for (int i = 1; i < bridgeParts.Count; i++)
+        Transform anchorSection = bridgeSections[(int)(BSIndex.anchor)];
+        Transform plankSection = bridgeSections[(int)(BSIndex.plank)];
+        for (int i = 0; i < plankSection.childCount + 1; i++)
         {
-            GameObject bridgePart = bridgeParts[i];
+            GameObject bridgePart;
+            GameObject prevBridgePart;
+            HingeJoint hj;
+            Rigidbody rb;
+            if (i < plankSection.childCount)
+            {
+                bridgePart = plankSection.GetChild(i).gameObject;
 
-            FixedJoint hj = bridgePart.GetComponent<FixedJoint>();
-            if (hj == null) hj = bridgePart.AddComponent<FixedJoint>();
+                if (i == 0) prevBridgePart = anchorSection.GetChild(0).gameObject;
+                else prevBridgePart = plankSection.GetChild(i - 1).gameObject;
+            }
+            else
+            {
+                bridgePart = anchorSection.GetChild(1).gameObject;
 
-            GameObject prevBridgePart = bridgeParts[i - 1];
-            Rigidbody rb = prevBridgePart.GetComponent<Rigidbody>();
+                prevBridgePart = plankSection.GetChild(plankSection.childCount - 1).gameObject;
+            }
+
+            hj = bridgePart.GetComponent<HingeJoint>();
+            if (hj == null) hj = bridgePart.AddComponent<HingeJoint>();
+
+            rb = prevBridgePart.GetComponent<Rigidbody>();
 
             hj.connectedBody = rb;
             hj.anchor = new Vector3(0, 0, 0);
@@ -156,9 +173,8 @@ public class BuildPlanks : MonoBehaviour
 
     public void BuildBridge()
     {
-        CreateBridgeSections();
-        CreateBridgeParts();
-        SetBridgePartLocations();
+        InstantiateBridgeSections();
+        InstantiateBridgeParts();
         AddRigidBody();
         AddJoints();
 
@@ -167,14 +183,15 @@ public class BuildPlanks : MonoBehaviour
 
     public void ClearBridge()
     {
-        //foreach (GameObject bridgePart in bridgeParts)
-        //{
-        //    DestroyImmediate(bridgePart);
-        //}
-
-        foreach (Transform bridgeSection in bridgeSections)
+        List<GameObject> existingSections = new List<GameObject>();
+        foreach (Transform sections in transform)
         {
-            DestroyImmediate(bridgeSection.gameObject);
+            existingSections.Add(sections.gameObject);
+        }
+
+        foreach (GameObject sections in existingSections)
+        {
+            DestroyImmediate(sections);
         }
 
         bridgeParts.Clear();
