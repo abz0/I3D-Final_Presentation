@@ -16,9 +16,25 @@ public class GenerateDecorations : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, new Vector3(spawnArea.x, 0, spawnArea.y));
     }
 
+    private Vector3 GetSpawnPosition()
+    {
+        Vector3 spawnPosition = transform.position;
+        Vector3 realSpawnArea = spawnPosition + new Vector3(spawnArea.x, spawnPosition.y, spawnArea.y) / 2;
+
+        int randX = Random.Range((int)-realSpawnArea.x, (int)(realSpawnArea.x + 1));
+        int randZ = Random.Range((int)-realSpawnArea.z, (int)(realSpawnArea.z + 1));
+
+        spawnPosition = new Vector3(randX, spawnPosition.y, randZ);
+
+        return spawnPosition;
+    }
+
     private void SpawnObject(GameObject go)
     {
-        existingObjects.Add(Instantiate(go, transform));
+        GameObject obj = Instantiate(go, transform);
+        obj.transform.position = GetSpawnPosition();
+
+        existingObjects.Add(obj);
     }
 
     public void ClearExistingObjects()
