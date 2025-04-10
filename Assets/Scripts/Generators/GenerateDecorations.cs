@@ -46,7 +46,6 @@ public class GenerateDecorations : MonoBehaviour
             if (t.name == name) return t;
         }
 
-
         GameObject newObjectType = new GameObject(name);
         newObjectType.transform.parent = transform;
 
@@ -87,10 +86,10 @@ public class GenerateDecorations : MonoBehaviour
 
     public void ClearExistingObjects()
     {
-        foreach (GameObject go in existingObjects)
-        {
-            DestroyImmediate(go);
-        }
+        //foreach (GameObject go in existingObjects)
+        //{
+        //    DestroyImmediate(go);
+        //}
 
         foreach (Transform t in objectTypes)
         {

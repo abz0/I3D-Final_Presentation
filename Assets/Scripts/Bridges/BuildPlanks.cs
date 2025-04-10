@@ -18,20 +18,11 @@ public class BuildPlanks : MonoBehaviour
     public float duration = 1f;
 
     private List<GameObject> bridgeParts = new List<GameObject>();
+    private List<Transform> bridgeSections = new List<Transform>();
     private int bpIndex = 1;
 
     private float timer;
     public enum PKlocalScale { x, y, z };
-
-    void Start()
-    {
-        //CreateBridgeParts();
-        //SetBridgePartLocations();
-        //AddRigidBody();
-        //AddJoints();
-
-        //timer = duration;
-    }
 
     void Update()
     {
@@ -56,16 +47,27 @@ public class BuildPlanks : MonoBehaviour
         }
     }
 
+    private void CreateBridgeSections()
+    {
+        GameObject anchorSection = new GameObject("Anchors");
+        GameObject plankSection = new GameObject("Planks");
+
+        anchorSection.transform.parent = plankSection.transform.parent = transform;
+
+        bridgeSections.Add(anchorSection.transform);
+        bridgeSections.Add(plankSection.transform);
+    }
+
     private void CreateBridgeParts()
     {
-        bridgeParts.Add(Instantiate(anchorObject, transform));
+        bridgeParts.Add(Instantiate(anchorObject, bridgeSections[0]));
 
         for (int i = 0; i < amount; i++)
         {
-            bridgeParts.Add(Instantiate(plankObject, transform));
+            bridgeParts.Add(Instantiate(plankObject, bridgeSections[1]));
         }
 
-        bridgeParts.Add(Instantiate(anchorObject, transform));
+        bridgeParts.Add(Instantiate(anchorObject, bridgeSections[0]));
     }
 
     private void SetBridgePartLocations()
@@ -157,6 +159,7 @@ public class BuildPlanks : MonoBehaviour
 
     public void BuildBridge()
     {
+        CreateBridgeSections();
         CreateBridgeParts();
         SetBridgePartLocations();
         AddRigidBody();
@@ -167,11 +170,17 @@ public class BuildPlanks : MonoBehaviour
 
     public void ClearBridge()
     {
-        foreach (GameObject bridgePart in bridgeParts)
+        //foreach (GameObject bridgePart in bridgeParts)
+        //{
+        //    DestroyImmediate(bridgePart);
+        //}
+
+        foreach (Transform bridgeSection in bridgeSections)
         {
-            DestroyImmediate(bridgePart);
+            DestroyImmediate(bridgeSection.gameObject);
         }
 
         bridgeParts.Clear();
+        bridgeSections.Clear();
     }
 }
