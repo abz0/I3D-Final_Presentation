@@ -13,9 +13,9 @@ public class BuildPlanks : MonoBehaviour
     public float buildGap = 0f;
     public PKlocalScale byLocal;
 
-    [Header("Build")]
-    public bool usesGravity = false;
-    public float duration = 1f;
+    //[Header("Build")]
+    //public bool usesGravity = false;
+    //public float duration = 1f;
 
     private List<GameObject> bridgeParts = new List<GameObject>();
     private List<Transform> bridgeSections = new List<Transform>();
@@ -27,25 +27,25 @@ public class BuildPlanks : MonoBehaviour
 
     void Update()
     {
-        if (usesGravity)
-        {
-            if (bpIndex < bridgeParts.Count - 2)
-            {
-                timer -= Time.deltaTime;
+        //if (usesGravity)
+        //{
+        //    if (bpIndex < bridgeParts.Count - 2)
+        //    {
+        //        timer -= Time.deltaTime;
 
-                if (timer <= 0)
-                {
-                    Rigidbody rb = bridgeParts[bpIndex].GetComponent<Rigidbody>();
+        //        if (timer <= 0)
+        //        {
+        //            Rigidbody rb = bridgeParts[bpIndex].GetComponent<Rigidbody>();
 
-                    rb.useGravity = true;
-                    rb.isKinematic = false;
+        //            rb.useGravity = true;
+        //            rb.isKinematic = false;
 
-                    duration += Time.deltaTime;
-                    timer = duration;
-                    bpIndex++;
-                }
-            }
-        }
+        //            duration += Time.deltaTime;
+        //            timer = duration;
+        //            bpIndex++;
+        //        }
+        //    }
+        //}
     }
 
     private Vector3 AddBuildObjectPosition(bool isAnchor)
@@ -123,16 +123,18 @@ public class BuildPlanks : MonoBehaviour
             Rigidbody rb = plank.gameObject.GetComponent<Rigidbody>();
             if (rb == null) rb = plank.gameObject.AddComponent<Rigidbody>();
 
-            if (usesGravity)
-            {
-                rb.useGravity = true;
-                rb.isKinematic = false;
-            }
-            else
-            {
-                rb.useGravity = false;
-                rb.isKinematic = true;
-            }
+            rb.useGravity = false;
+            rb.isKinematic = true;
+            //if (usesGravity)
+            //{
+            //    rb.useGravity = true;
+            //    rb.isKinematic = false;
+            //}
+            //else
+            //{
+            //    rb.useGravity = false;
+            //    rb.isKinematic = true;
+            //}
         }
     }
 
@@ -178,7 +180,7 @@ public class BuildPlanks : MonoBehaviour
         AddRigidBody();
         AddJoints();
 
-        timer = duration;
+        //timer = duration;
     }
 
     public void ClearBridge()
