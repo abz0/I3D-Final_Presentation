@@ -6,7 +6,7 @@ public class GenerateDecorations : MonoBehaviour
 {
     [SerializeField] private Vector2 spawnArea = new Vector2(1, 1);
     [SerializeField] private List<GenDecoObject> objects = new List<GenDecoObject>();
-    [SerializeField] private int amount = 0;
+    [SerializeField] private int randomAmount = 0;
 
     private List<GameObject> existingObjects = new List<GameObject>();
 
@@ -77,14 +77,30 @@ public class GenerateDecorations : MonoBehaviour
         existingObjects.Clear();
     }
 
+    private void Generate(GenDecoObject obj, int attempts)
+    {
+        for (int i = 0; i < attempts; i++)
+        {
+            if (SpawnObject(obj)) break;
+        }
+    }
+
     public void GenerateObjects()
     {
-        for (int i = 0; i < amount; i++)
+        foreach (GenDecoObject go in objects)
         {
-            for (int j = 0; j < 5; j++)
+            for (int i = 0; i < go.amount; i++)
             {
-                if (SpawnObject(objects[Random.Range(0, objects.Count)])) break;
+                Generate(go, 5);
             }
+        }
+    }
+
+    public void GenerateRandomObjects()
+    {
+        for (int i = 0; i < randomAmount; i++)
+        {
+            Generate(objects[Random.Range(0, objects.Count)], 5);
         }
     }
 }

@@ -13,13 +13,19 @@ public class GenDecoInspector : Editor
 
         GenerateDecorations genDeco = (GenerateDecorations)target;
 
-        if (GUILayout.Button("Generate Decorations"))
+        if (GUILayout.Button("Generate Objects"))
         {
             genDeco.ClearExistingObjects();
             genDeco.GenerateObjects();
         }
 
-        if (GUILayout.Button("Clear Decorations"))
+        if (GUILayout.Button("Generate Random Objects"))
+        {
+            genDeco.ClearExistingObjects();
+            genDeco.GenerateRandomObjects();
+        }
+
+        if (GUILayout.Button("Clear Objects"))
         {
             genDeco.ClearExistingObjects();
         }
