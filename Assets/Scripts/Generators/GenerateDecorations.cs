@@ -21,13 +21,13 @@ public class GenerateDecorations : MonoBehaviour
     // Objects // // // //
     private Vector3 GetSpawnPosition()
     {
-        Vector3 originPosition = transform.position;
-        Vector3 realSpawnArea = originPosition + new Vector3(spawnArea.x, originPosition.y, spawnArea.y) / 2;
+        Vector3 origin = transform.position;
+        Vector2 realSpawnArea = spawnArea / 2;
 
-        float randX = Random.Range(-realSpawnArea.x, realSpawnArea.x);
-        float randZ = Random.Range(-realSpawnArea.z, realSpawnArea.z);
+        float randX = Random.Range(origin.x - realSpawnArea.x, origin.x + realSpawnArea.x);
+        float randZ = Random.Range(origin.z - realSpawnArea.y, origin.z + realSpawnArea.y);
 
-        return new Vector3(randX, originPosition.y, randZ); ;
+        return new Vector3(randX, origin.y, randZ);
     }
 
     private bool ValidSpawnPosition(GenDecoObject go, Vector3 position)
@@ -57,7 +57,7 @@ public class GenerateDecorations : MonoBehaviour
 
     private void InstantiateObject(GameObject go, Vector3 position)
     {
-        
+
         GameObject obj = Instantiate(go, GetObjectType(go.name));
         obj.transform.position = position;
         obj.AddComponent<CapsuleCollider>();
@@ -86,10 +86,10 @@ public class GenerateDecorations : MonoBehaviour
 
     public void ClearExistingObjects()
     {
-        //foreach (GameObject go in existingObjects)
-        //{
-        //    DestroyImmediate(go);
-        //}
+        foreach (GameObject go in existingObjects)
+        {
+            DestroyImmediate(go);
+        }
 
         foreach (Transform t in objectTypes)
         {
