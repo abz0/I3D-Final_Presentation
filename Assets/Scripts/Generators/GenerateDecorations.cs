@@ -9,6 +9,7 @@ public class GenerateDecorations : MonoBehaviour
     [SerializeField] private int randomAmount = 0;
 
     private List<GameObject> existingObjects = new List<GameObject>();
+    private List<Transform> objectTypes = new List<Transform>();
 
     // Unity // // // //
     void OnDrawGizmosSelected()
@@ -38,10 +39,26 @@ public class GenerateDecorations : MonoBehaviour
         return true;
     }
 
+    private Transform GetObjectType(string name)
+    {
+        foreach (Transform t in objectTypes)
+        {
+            if (t.name == name) return t;
+        }
+
+
+        GameObject newObjectType = new GameObject(name);
+        newObjectType.transform.parent = transform;
+
+        objectTypes.Add(newObjectType.transform);
+
+        return objectTypes[objectTypes.Count - 1];
+    }
+
     private void InstantiateObject(GameObject go, Vector3 position)
     {
         
-        GameObject obj = Instantiate(go, transform);
+        GameObject obj = Instantiate(go, GetObjectType(go.name));
         obj.transform.position = position;
         obj.AddComponent<CapsuleCollider>();
 
@@ -69,11 +86,17 @@ public class GenerateDecorations : MonoBehaviour
 
     public void ClearExistingObjects()
     {
-        foreach(GameObject go in existingObjects)
+        //foreach (GameObject go in existingObjects)
+        //{
+        //    DestroyImmediate(go);
+        //}
+
+        foreach (Transform t in objectTypes)
         {
-            DestroyImmediate(go);
+            DestroyImmediate(t.gameObject);
         }
 
+        objectTypes.Clear();
         existingObjects.Clear();
     }
 
