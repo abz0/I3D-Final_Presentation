@@ -52,23 +52,16 @@ public class GenerateDecorations : MonoBehaviour
     {
         Vector3 spawnPosition = GetSpawnPosition();
 
-        bool canSpawn = false;
         for (int i = 0;  i < 5; i++)
         {
             if (ValidSpawnPosition(go, spawnPosition))
             {
-                canSpawn = true;
-                break;
+                InstantiateObject(go.obj, spawnPosition);
+                
+                return true;
             }
 
             spawnPosition = GetSpawnPosition();
-        }
-
-        if (canSpawn)
-        {
-            InstantiateObject(go.obj, spawnPosition);
-            
-            return true;
         }
 
         return false;
@@ -93,7 +86,5 @@ public class GenerateDecorations : MonoBehaviour
                 if (SpawnObject(objects[Random.Range(0, objects.Count)])) break;
             }
         }
-
-        Debug.Log(existingObjects.Count + " Objects generated");
     }
 }
