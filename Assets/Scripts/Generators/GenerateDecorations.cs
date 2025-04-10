@@ -6,7 +6,7 @@ public class GenerateDecorations : MonoBehaviour
 {
     [SerializeField] private Vector2 spawnArea = new Vector2(1, 1);
     [SerializeField] private List<GenDecoObject> objects = new List<GenDecoObject>();
-    [SerializeField] private int randomAmount = 0;
+    [SerializeField] private int randomAmount = 1;
 
     private List<GameObject> existingObjects = new List<GameObject>();
     private List<Transform> objectTypes = new List<Transform>();
@@ -34,7 +34,7 @@ public class GenerateDecorations : MonoBehaviour
     {
         Vector3 capsuleEndCast = new Vector3(position.x, position.y + go.height, position.z);
 
-        if (Physics.CapsuleCastAll(position, capsuleEndCast, go.radius, Vector3.down).Length > 0) return false;
+        if (Physics.CapsuleCastAll(position, capsuleEndCast, go.radius, Vector3.down).Length > 1) return false;
 
         return true;
     }
@@ -118,6 +118,8 @@ public class GenerateDecorations : MonoBehaviour
                 Generate(go, 5);
             }
         }
+
+        Debug.Log(existingObjects.Count + " Objects generated");
     }
 
     public void GenerateRandomObjects()
@@ -126,6 +128,8 @@ public class GenerateDecorations : MonoBehaviour
         {
             Generate(objects[Random.Range(0, objects.Count)], 5);
         }
+
+        Debug.Log(existingObjects.Count + " Objects generated");
     }
 
     private void SetObjectDefaultCast(GenDecoObject decoObject)
