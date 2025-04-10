@@ -7,11 +7,12 @@ public class GenDecoInspector : Editor
 {
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector();
+        base.OnInspectorGUI();
 
         GenerateDecorations genDeco = (GenerateDecorations)target;
         if (GUILayout.Button("Generate Decorations"))
         {
+            genDeco.ClearExistingObjects();
             genDeco.GenerateObjects();
         }
     }

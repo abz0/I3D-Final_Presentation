@@ -5,7 +5,10 @@ using UnityEngine;
 public class GenerateDecorations : MonoBehaviour
 {
     [SerializeField] private Vector2 spawnArea = new Vector2(1, 1);
-    [SerializeField] private List<GameObject> decorations = new List<GameObject>();
+    [SerializeField] private List<GameObject> objects = new List<GameObject>();
+    [SerializeField] private int amount = 0;
+
+    private List<GameObject> existingObjects = new List<GameObject>();
 
     void OnDrawGizmosSelected()
     {
@@ -15,11 +18,24 @@ public class GenerateDecorations : MonoBehaviour
 
     private void SpawnObject(GameObject go)
     {
-        Instantiate(go, transform);
+        existingObjects.Add(Instantiate(go, transform));
+    }
+
+    public void ClearExistingObjects()
+    {
+        foreach(GameObject go in existingObjects)
+        {
+            DestroyImmediate(go);
+        }
+
+        existingObjects.Clear();
     }
 
     public void GenerateObjects()
     {
-        SpawnObject(decorations[0]);
+        for (int i = 0; i < amount; i++)
+        {
+            SpawnObject(objects[Random.Range(0, objects.Count)]);
+        }
     }
 }

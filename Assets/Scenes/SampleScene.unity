@@ -1257,8 +1257,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnArea: {x: 1, y: 1}
-  decorations:
+  objects:
   - {fileID: 660086656799076114, guid: e257fe35a4dbbc447a72e7eb64514325, type: 3}
+  - {fileID: 6874265811545995612, guid: f652d1895ed93c04e851db74a53e870e, type: 3}
+  - {fileID: 6787215077919588919, guid: bd23fb6d342f89a48ae3de82d9cf77cf, type: 3}
+  amount: 1
 --- !u!4 &1501081255
 Transform:
   m_ObjectHideFlags: 0
