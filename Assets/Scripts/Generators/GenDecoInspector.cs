@@ -7,8 +7,11 @@ public class GenDecoInspector : Editor
 {
     public override void OnInspectorGUI()
     {
-        string infoBox = "If there are any child gameobjects after loading up the unity file, delete them since the current script does not have them recorded after exiting the unity file.";
-        EditorGUILayout.HelpBox(infoBox, MessageType.Warning);
+        string infoBox1 = "If there are any child gameobjects after loading up the unity file, delete them since the current script does not have them recorded after exiting the unity file.";
+        EditorGUILayout.HelpBox(infoBox1, MessageType.Warning);
+
+        string infoBox2 = "Once the gameobjects have been generated, make a change in the scene to save the generated objects";
+        EditorGUILayout.HelpBox(infoBox2, MessageType.Warning);
 
         base.OnInspectorGUI();
 
