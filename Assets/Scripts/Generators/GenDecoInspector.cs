@@ -9,11 +9,19 @@ public class GenDecoInspector : Editor
     {
         base.OnInspectorGUI();
 
+        EditorGUILayout.LabelField("Buttons", EditorStyles.boldLabel);
+
         GenerateDecorations genDeco = (GenerateDecorations)target;
+
         if (GUILayout.Button("Generate Decorations"))
         {
             genDeco.ClearExistingObjects();
             genDeco.GenerateObjects();
+        }
+
+        if (GUILayout.Button("Clear Decorations"))
+        {
+            genDeco.ClearExistingObjects();
         }
     }
 }

@@ -10,12 +10,14 @@ public class GenerateDecorations : MonoBehaviour
 
     private List<GameObject> existingObjects = new List<GameObject>();
 
+    // Unity // // // //
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position, new Vector3(spawnArea.x, 0, spawnArea.y));
     }
 
+    // Objects // // // //
     private Vector3 GetSpawnPosition()
     {
         Vector3 spawnPosition = transform.position;
