@@ -19,6 +19,7 @@ public class BuildPlanks : MonoBehaviour
 
     private List<GameObject> bridgeParts = new List<GameObject>();
     private List<Transform> bridgeSections = new List<Transform>();
+    private enum BSIndex { anchor, plank };
     private int bpIndex = 1;
 
     private float timer;
@@ -60,49 +61,19 @@ public class BuildPlanks : MonoBehaviour
 
     private void CreateBridgeParts()
     {
-        bridgeParts.Add(Instantiate(anchorObject, bridgeSections[0]));
+        bridgeParts.Add(Instantiate(anchorObject, bridgeSections[(int)BSIndex.anchor]));
 
         for (int i = 0; i < amount; i++)
         {
-            bridgeParts.Add(Instantiate(plankObject, bridgeSections[1]));
+            bridgeParts.Add(Instantiate(plankObject, bridgeSections[(int)BSIndex.plank]));
         }
 
-        bridgeParts.Add(Instantiate(anchorObject, bridgeSections[0]));
+        bridgeParts.Add(Instantiate(anchorObject, bridgeSections[(int)BSIndex.anchor]));
     }
-
-    private void SetBridgePartLocations()
-    {
-        Vector3 newLocation = transform.position;
-
-        bridgeParts[0].transform.position = newLocation;
-
-        newLocation += GetObjectPosition(true);
-
-        newLocation += new Vector3(buildGap, 0, 0);
-
-        for (int i = 1; i < bridgeParts.Count - 1; i++)
-        {
-            bridgeParts[i].transform.position = newLocation;
-
-            if (i != bridgeParts.Count - 2)
-            {
-                newLocation += GetObjectPosition(false);
-            }
-            else
-            {
-                newLocation += GetObjectPosition(true);
-            }
-
-            newLocation += new Vector3(buildGap, 0, 0);
-        }
-
-        bridgeParts[bridgeParts.Count - 1].transform.position = newLocation;
-    }
-
     private Vector3 GetObjectPosition(bool isAnchor)
     {
         Vector3 position;
-        
+
         switch (byLocal)
         {
             case PKlocalScale.x:
@@ -118,12 +89,38 @@ public class BuildPlanks : MonoBehaviour
                 else position = new Vector3(plankObject.transform.localScale.z, 0, 0);
                 break;
             default:
-                position = Vector3.zero; 
+                position = Vector3.zero;
                 break;
         }
 
-        return position;
+        return position + new Vector3(buildGap, 0, 0);
     }
+
+    private void SetBridgePartLocations()
+    {
+        Vector3 newLocation = transform.position;
+
+        bridgeSections[(int)BSIndex.anchor].GetChild(0).position = newLocation;
+
+        newLocation += GetObjectPosition(true);
+
+        for (int i = 1; i < bridgeParts.Count - 1; i++)
+        {
+            bridgeParts[i].transform.position = newLocation;
+
+            if (i != bridgeParts.Count - 2)
+            {
+                newLocation += GetObjectPosition(false);
+            }
+            else
+            {
+                newLocation += GetObjectPosition(true);
+            }
+        }
+
+        bridgeParts[bridgeParts.Count - 1].transform.position = newLocation;
+    }
+
 
     private void AddRigidBody() 
     {
