@@ -5,7 +5,7 @@ using UnityEngine;
 public class GenerateDecorations : MonoBehaviour
 {
     [SerializeField] private Vector2 spawnArea = new Vector2(1, 1);
-    [SerializeField] private List<GameObject> objects = new List<GameObject>();
+    [SerializeField] private List<GenDecoObject> objects = new List<GenDecoObject>();
     [SerializeField] private int amount = 0;
 
     private List<GameObject> existingObjects = new List<GameObject>();
@@ -20,23 +20,58 @@ public class GenerateDecorations : MonoBehaviour
     // Objects // // // //
     private Vector3 GetSpawnPosition()
     {
-        Vector3 spawnPosition = transform.position;
-        Vector3 realSpawnArea = spawnPosition + new Vector3(spawnArea.x, spawnPosition.y, spawnArea.y) / 2;
+        Vector3 originPosition = transform.position;
+        Vector3 realSpawnArea = originPosition + new Vector3(spawnArea.x, originPosition.y, spawnArea.y) / 2;
 
-        int randX = Random.Range((int)-realSpawnArea.x, (int)(realSpawnArea.x + 1));
-        int randZ = Random.Range((int)-realSpawnArea.z, (int)(realSpawnArea.z + 1));
+        float randX = Random.Range(-realSpawnArea.x, realSpawnArea.x);
+        float randZ = Random.Range(-realSpawnArea.z, realSpawnArea.z);
 
-        spawnPosition = new Vector3(randX, spawnPosition.y, randZ);
-
-        return spawnPosition;
+        return new Vector3(randX, originPosition.y, randZ); ;
     }
 
-    private void SpawnObject(GameObject go)
+    private bool ValidSpawnPosition(GenDecoObject go, Vector3 position)
     {
+        Vector3 capsuleEndCast = new Vector3(position.x, position.y + go.height, position.z);
+        
+        if (Physics.CapsuleCastAll(position, capsuleEndCast, go.radius, Vector3.down).Length > 0) return false;
+
+        return true;
+    }
+
+    private void InstantiateObject(GameObject go, Vector3 position)
+    {
+        
         GameObject obj = Instantiate(go, transform);
-        obj.transform.position = GetSpawnPosition();
+        obj.transform.position = position;
+        obj.AddComponent<CapsuleCollider>();
 
         existingObjects.Add(obj);
+    }
+
+    private bool SpawnObject(GenDecoObject go)
+    {
+        Vector3 spawnPosition = GetSpawnPosition();
+
+        bool canSpawn = false;
+        for (int i = 0;  i < 5; i++)
+        {
+            if (ValidSpawnPosition(go, spawnPosition))
+            {
+                canSpawn = true;
+                break;
+            }
+
+            spawnPosition = GetSpawnPosition();
+        }
+
+        if (canSpawn)
+        {
+            InstantiateObject(go.obj, spawnPosition);
+            
+            return true;
+        }
+
+        return false;
     }
 
     public void ClearExistingObjects()
@@ -53,7 +88,12 @@ public class GenerateDecorations : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            SpawnObject(objects[Random.Range(0, objects.Count)]);
+            for (int j = 0; j < 5; j++)
+            {
+                if (SpawnObject(objects[Random.Range(0, objects.Count)])) break;
+            }
         }
+
+        Debug.Log(existingObjects.Count + " Objects generated");
     }
 }
