@@ -7,7 +7,7 @@ using UnityEngine;
 public class GenDecoObject
 {
     [SerializeField] private GameObject _obj;
-    [SerializeField] private int _amount;
+    [SerializeField] private int _amount = 1;
 
     [Header("Capsule Cast")]
     [SerializeField] private float _radius;
@@ -37,4 +37,8 @@ public class GenDecoObject
         get { return _height; }
         private set { _height = value; }
     }
+
+    public void SetRadius(float radius) { this.radius = radius; }
+
+    public void SetHeight(float height) { this.height = height; }
 }

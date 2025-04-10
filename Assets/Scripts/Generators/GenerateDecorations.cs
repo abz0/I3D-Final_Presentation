@@ -33,7 +33,7 @@ public class GenerateDecorations : MonoBehaviour
     private bool ValidSpawnPosition(GenDecoObject go, Vector3 position)
     {
         Vector3 capsuleEndCast = new Vector3(position.x, position.y + go.height, position.z);
-        
+
         if (Physics.CapsuleCastAll(position, capsuleEndCast, go.radius, Vector3.down).Length > 0) return false;
 
         return true;
@@ -59,8 +59,9 @@ public class GenerateDecorations : MonoBehaviour
     {
 
         GameObject obj = Instantiate(go, GetObjectType(go.name));
+
         obj.transform.position = position;
-        obj.AddComponent<CapsuleCollider>();
+        if (!obj.GetComponent<CapsuleCollider>()) obj.AddComponent<CapsuleCollider>();
 
         existingObjects.Add(obj);
     }
@@ -69,12 +70,12 @@ public class GenerateDecorations : MonoBehaviour
     {
         Vector3 spawnPosition = GetSpawnPosition();
 
-        for (int i = 0;  i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
             if (ValidSpawnPosition(go, spawnPosition))
             {
                 InstantiateObject(go.obj, spawnPosition);
-                
+
                 return true;
             }
 
@@ -124,6 +125,26 @@ public class GenerateDecorations : MonoBehaviour
         for (int i = 0; i < randomAmount; i++)
         {
             Generate(objects[Random.Range(0, objects.Count)], 5);
+        }
+    }
+
+    private void SetObjectDefaultCast(GenDecoObject decoObject)
+    {
+        GameObject temp = Instantiate(decoObject.obj);
+        CapsuleCollider collider = temp.GetComponent<CapsuleCollider>();
+        if (!collider) collider = temp.AddComponent<CapsuleCollider>();
+
+        decoObject.SetRadius(collider.radius);
+        decoObject.SetHeight(collider.height);
+
+        DestroyImmediate(temp);
+    }
+
+    public void SetAllObjectDefaultCast()
+    {
+        foreach(GenDecoObject decoObject in objects)
+        {
+            SetObjectDefaultCast(decoObject);
         }
     }
 }

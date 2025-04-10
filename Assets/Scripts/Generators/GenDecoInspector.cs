@@ -13,6 +13,11 @@ public class GenDecoInspector : Editor
 
         GenerateDecorations genDeco = (GenerateDecorations)target;
 
+        if (GUILayout.Button("Set All Object Default Cast"))
+        {
+            genDeco.SetAllObjectDefaultCast();
+        }
+
         if (GUILayout.Button("Generate Objects"))
         {
             genDeco.ClearExistingObjects();
