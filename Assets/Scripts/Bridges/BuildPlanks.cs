@@ -9,14 +9,15 @@ public class BuildPlanks : MonoBehaviour
     public GameObject plankObject;
 
     [Header("Planks")]
-    public int amount = 3;
-    public float buildGap = 0f;
-    public PKlocalScale byLocal;
+    [SerializeField] private int amount = 3;
+    [SerializeField] private float buildGap = 0f;
+    [SerializeField] private PKlocalScale byLocal;
 
     [Header("Build")]
-    public bool usesGravity = false;
-    public int fallBy = 10;
-    public float duration = 1f;
+    [SerializeField] private bool areAnchorsVisible = false;
+    [SerializeField] private bool usesGravity = false;
+    [SerializeField] private int fallBy = 10;
+    [SerializeField] private float duration = 1f;
 
     private List<Transform> bridgeSections = new List<Transform>();
     private enum BSIndex { anchor, plank };
@@ -52,6 +53,7 @@ public class BuildPlanks : MonoBehaviour
         //}
     }
 
+    //gets the addition needed for the next build
     private Vector3 AddBuildObjectPosition(bool isAnchor)
     {
         Vector3 position;
@@ -94,7 +96,7 @@ public class BuildPlanks : MonoBehaviour
         Vector3 buildPosition = transform.position;
         for (int i = 0; i < amount; i++)
         {
-            GameObject plank = Instantiate(plankObject, bridgeSections[(int)BSIndex.plank]);
+            GameObject plank = Instantiate(plankObject, bridgeSections[(int)BSIndex.plank]); //sort the plankObjects into the Planks gameobject
 
             if (i == 0) buildPosition += AddBuildObjectPosition(true);
             else buildPosition += AddBuildObjectPosition(false);
@@ -111,6 +113,7 @@ public class BuildPlanks : MonoBehaviour
         }
     }
 
+    //adds and sets the rigidbodies to the bridge parts, where it is required for the joint class
     private void AddRigidBody() 
     {
         foreach (Transform anchor in bridgeSections[(int)(BSIndex.anchor)])
@@ -142,11 +145,12 @@ public class BuildPlanks : MonoBehaviour
         }
     }
 
+    //connects the bridge parts together using hingejoints
     private void AddJoints()
     {
         Transform anchorSection = bridgeSections[(int)(BSIndex.anchor)];
         Transform plankSection = bridgeSections[(int)(BSIndex.plank)];
-        for (int i = 0; i < plankSection.childCount + 1; i++)
+        for (int i = 0; i < plankSection.childCount + 1; i++) //this includes the plankSection children and the last anchor
         {
             GameObject bridgePart;
             GameObject prevBridgePart;
@@ -177,12 +181,26 @@ public class BuildPlanks : MonoBehaviour
         }
     }
 
+    private void ShowAnchors()
+    {
+        foreach (Transform anchor in bridgeSections[(int)(BSIndex.anchor)])
+        {
+            MeshRenderer meshRenderer;
+            if (meshRenderer = anchor.gameObject.GetComponent<MeshRenderer>())
+            {
+                if (areAnchorsVisible) meshRenderer.enabled = true;
+                else meshRenderer.enabled = false;
+            }
+        }
+    }
+
     public void BuildBridge()
     {
         InstantiateBridgeSections();
         InstantiateBridgeParts();
         AddRigidBody();
         AddJoints();
+        ShowAnchors();
 
         timer = duration;
     }
