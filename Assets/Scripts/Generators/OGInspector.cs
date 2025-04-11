@@ -2,8 +2,8 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(GenerateDecorations))]
-public class GenDecoInspector : Editor
+[CustomEditor(typeof(ObjectGenerator))]
+public class OGInspector : Editor
 {
     public override void OnInspectorGUI()
     {
@@ -16,7 +16,7 @@ public class GenDecoInspector : Editor
 
         EditorGUILayout.LabelField("Buttons", EditorStyles.boldLabel);
 
-        GenerateDecorations genDeco = (GenerateDecorations)target;
+        ObjectGenerator genDeco = (ObjectGenerator)target;
 
         if (GUILayout.Button("Set All Object Default Cast"))
         {

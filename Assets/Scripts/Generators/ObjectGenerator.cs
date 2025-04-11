@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GenerateDecorations : MonoBehaviour
+public class ObjectGenerator : MonoBehaviour
 {
     [SerializeField] private Vector2 spawnArea = new Vector2(1, 1);
-    [SerializeField] private List<GenDecoObject> objects = new List<GenDecoObject>();
+    [Tooltip("Sort the objects in a specific order as the generation goes through the list one by one for each spawn")]
+    [SerializeField] private List<OGObject> objects = new List<OGObject>();
     [SerializeField] private int randomAmount = 1;
 
     private List<GameObject> existingObjects = new List<GameObject>();
@@ -30,7 +31,7 @@ public class GenerateDecorations : MonoBehaviour
         return new Vector3(randX, origin.y, randZ);
     }
 
-    private bool ValidSpawnPosition(GenDecoObject go, Vector3 position)
+    private bool ValidSpawnPosition(OGObject go, Vector3 position)
     {
         Vector3 capsuleEndCast = new Vector3(position.x, position.y + go.height, position.z);
 
@@ -65,25 +66,21 @@ public class GenerateDecorations : MonoBehaviour
         existingObjects.Add(obj);
     }
 
-    private bool SpawnObject(GenDecoObject go)
+    private bool SpawnObject(OGObject go)
     {
         Vector3 spawnPosition = GetSpawnPosition();
 
-        for (int i = 0; i < 5; i++)
+        if (ValidSpawnPosition(go, spawnPosition))
         {
-            if (ValidSpawnPosition(go, spawnPosition))
-            {
-                InstantiateObject(go.obj, spawnPosition);
+            InstantiateObject(go.obj, spawnPosition);
 
-                return true;
-            }
-
-            spawnPosition = GetSpawnPosition();
+            return true;
         }
 
         return false;
     }
 
+    // clears the existing objects on scene
     public void ClearExistingObjects()
     {
         List<GameObject> existingSections = new List<GameObject>();
@@ -101,17 +98,19 @@ public class GenerateDecorations : MonoBehaviour
         existingObjects.Clear();
     }
 
-    private void Generate(GenDecoObject obj, int attempts)
+    private bool Generate(OGObject obj, int attempts)
     {
         for (int i = 0; i < attempts; i++)
         {
-            if (SpawnObject(obj)) break;
+            if (SpawnObject(obj)) return true;
         }
+
+        return false;
     }
 
     public void GenerateObjects()
     {
-        foreach (GenDecoObject go in objects)
+        foreach (OGObject go in objects)
         {
             for (int i = 0; i < go.amount; i++)
             {
@@ -124,15 +123,33 @@ public class GenerateDecorations : MonoBehaviour
 
     public void GenerateRandomObjects()
     {
-        for (int i = 0; i < randomAmount; i++)
+        int spawnAmount = 0;
+        int spawnRandomAttempts = 0;
+        while (spawnAmount < randomAmount && spawnRandomAttempts < 3)
         {
-            Generate(objects[Random.Range(0, objects.Count)], 5);
+            bool didSpawn = false; //if an object have already been spawned into the scene
+            foreach (OGObject obj in objects)
+            {
+                float chance = Random.Range(0f, 1f);
+                if (chance > 0f && chance <= obj.randomChance)
+                {
+                    if (Generate(obj, 5)) //when a new object is spawned
+                    {
+                        spawnAmount++;
+
+                        if (!didSpawn) didSpawn = true;
+                    }
+                }
+            }
+
+            if (!didSpawn) spawnRandomAttempts++;
         }
 
         Debug.Log(existingObjects.Count + " Objects generated");
     }
 
-    private void SetObjectDefaultCast(GenDecoObject decoObject)
+    //adds the measurements of the cast of the object
+    private void SetObjectDefaultCast(OGObject decoObject)
     {
         GameObject temp = Instantiate(decoObject.obj);
         CapsuleCollider collider = temp.GetComponent<CapsuleCollider>();
@@ -146,7 +163,7 @@ public class GenerateDecorations : MonoBehaviour
 
     public void SetAllObjectDefaultCast()
     {
-        foreach(GenDecoObject decoObject in objects)
+        foreach(OGObject decoObject in objects)
         {
             SetObjectDefaultCast(decoObject);
         }

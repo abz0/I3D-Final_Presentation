@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class GenDecoObject
+public class OGObject
 {
     [SerializeField] private GameObject _obj;
     [SerializeField] private int _amount = 1;
+    [SerializeField] [Range(0f, 1f)] private float _randomChance = 1; // used for the random generation
 
     [Header("Capsule Cast")]
     [SerializeField] private float _radius;
@@ -24,6 +25,12 @@ public class GenDecoObject
     {
         get { return _amount; }
         private set { _amount = value; }
+    }
+
+    public float randomChance
+    {
+        get { return _randomChance; }
+        private set { _randomChance = value; }
     }
 
     public float radius
