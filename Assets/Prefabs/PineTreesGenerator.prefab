@@ -53,52 +53,52 @@ MonoBehaviour:
     _height: 0.31413162
   - _obj: {fileID: 660086656799076114, guid: e257fe35a4dbbc447a72e7eb64514325, type: 3}
     _amount: 1
-    _randomChance: 1
+    _randomChance: 0.95
     _radius: 1.7452071
     _height: 7.7773194
   - _obj: {fileID: 4871686800820488635, guid: 4cf06cd1e020aaa4bb4f5f32809c6528, type: 3}
     _amount: 1
-    _randomChance: 1
+    _randomChance: 0.95
     _radius: 1.4491824
     _height: 7.2772546
   - _obj: {fileID: 1522877432145605829, guid: 95eca194969b8cf4c8bfb32516031d9c, type: 3}
     _amount: 1
-    _randomChance: 1
+    _randomChance: 0.95
     _radius: 1.7383745
     _height: 7.011147
   - _obj: {fileID: 6060970473631514856, guid: 005df82eec38bec4db45e238b21c3b7b, type: 3}
     _amount: 1
-    _randomChance: 0.75
+    _randomChance: 0.5
     _radius: 0.5726549
     _height: 0.9089156
   - _obj: {fileID: 8738901131563188609, guid: b630ae0af49f02841ac414c4c305866a, type: 3}
     _amount: 1
-    _randomChance: 0.75
+    _randomChance: 0.5
     _radius: 0.33308387
     _height: 0.49972743
   - _obj: {fileID: 451162449827774052, guid: 02914fc9e65c1d0498db4714b0fa9c61, type: 3}
     _amount: 1
-    _randomChance: 0.75
+    _randomChance: 0.5
     _radius: 0.41000596
     _height: 1.501245
   - _obj: {fileID: 6874265811545995612, guid: f652d1895ed93c04e851db74a53e870e, type: 3}
     _amount: 1
-    _randomChance: 0.2
+    _randomChance: 0.1
     _radius: 1.1730554
     _height: 0.82439524
   - _obj: {fileID: 8529089349787323126, guid: 72a020c38cc011646aa38e7d7916c83f, type: 3}
     _amount: 1
-    _randomChance: 0.2
+    _randomChance: 0.1
     _radius: 0.99221313
     _height: 0.2993781
   - _obj: {fileID: 7998275353600776018, guid: 8483d35deeff41e4185641801630280f, type: 3}
     _amount: 1
-    _randomChance: 0.1
+    _randomChance: 0.05
     _radius: 3.1620898
     _height: 2.3663657
   - _obj: {fileID: 6787215077919588919, guid: bd23fb6d342f89a48ae3de82d9cf77cf, type: 3}
     _amount: 1
-    _randomChance: 0.1
+    _randomChance: 0.025
     _radius: 0.39367878
     _height: 0.80819285
   randomAmount: 1

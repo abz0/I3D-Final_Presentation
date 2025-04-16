@@ -124,14 +124,14 @@ public class ObjectGenerator : MonoBehaviour
     public void GenerateRandomObjects()
     {
         int spawnAmount = 0;
-        int spawnRandomAttempts = 0;
-        while (spawnAmount < randomAmount && spawnRandomAttempts < 3)
+        int randomSpawnAttempts = 0; //attempts at spawning if a spawn while loop fails
+        while (spawnAmount < randomAmount && randomSpawnAttempts < 3)
         {
             bool didSpawn = false; //if an object have already been spawned into the scene
             foreach (OGObject obj in objects)
             {
                 float chance = Random.Range(0f, 1f);
-                if (chance > 0f && chance <= obj.randomChance)
+                if (chance <= obj.randomChance)
                 {
                     if (Generate(obj, 5)) //when a new object is spawned
                     {
@@ -140,9 +140,11 @@ public class ObjectGenerator : MonoBehaviour
                         if (!didSpawn) didSpawn = true;
                     }
                 }
+
+                if (spawnAmount >= randomAmount) break; //breaks out of the foreach loop if the spawnAmount reaches the randomAmount
             }
 
-            if (!didSpawn) spawnRandomAttempts++;
+            if (!didSpawn) randomSpawnAttempts++;
         }
 
         Debug.Log(existingObjects.Count + " Objects generated");
