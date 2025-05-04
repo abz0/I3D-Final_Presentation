@@ -342,7 +342,7 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: CM_CharactersShot
+    m_DisplayName: CM_CharactersApproaching
   m_Markers:
     m_Objects: []
 --- !u!114 &-4249788609397576219
