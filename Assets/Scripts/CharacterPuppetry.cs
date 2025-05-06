@@ -6,31 +6,31 @@ public class CharacterPuppetry : MonoBehaviour
 {
     [Header("Head")]
     [SerializeField] private Transform headTarget;
-    [SerializeField] private float headIKWeight = 1f;
+    [SerializeField] private float headIKWeight = 0f;
 
     [Header("Right Arm")]
     [SerializeField] private Transform rightElbowTarget;
-    [SerializeField] private float rightElbowIKWeight = 1f;
+    [SerializeField] private float rightElbowIKWeight = 0f;
     [SerializeField] private Transform rightHandTarget;
-    [SerializeField] private float rightHandIKWeight = 1f;
+    [SerializeField] private float rightHandIKWeight = 0f;
 
     [Header("Left Arm")]
     [SerializeField] private Transform leftElbowTarget;
-    [SerializeField] private float leftElbowIKWeight = 1f;
+    [SerializeField] private float leftElbowIKWeight = 0f;
     [SerializeField] private Transform leftHandTarget;
-    [SerializeField] private float leftHandIKWeight = 1f;
+    [SerializeField] private float leftHandIKWeight = 0f;
 
     [Header("Right Leg")]
     [SerializeField] private Transform rightKneeTarget;
-    [SerializeField] private float rightKneeIKWeight = 1f;
+    [SerializeField] private float rightKneeIKWeight = 0f;
     [SerializeField] private Transform rightFootTarget;
-    [SerializeField] private float rightFootIKWeight = 1f;
+    [SerializeField] private float rightFootIKWeight = 0f;
 
     [Header("Left Leg")]
     [SerializeField] private Transform leftKneeTarget;
-    [SerializeField] private float leftKneeIKWeight = 1f;
+    [SerializeField] private float leftKneeIKWeight = 0f;
     [SerializeField] private Transform leftFootTarget;
-    [SerializeField] private float leftFootIKWeight = 1f;
+    [SerializeField] private float leftFootIKWeight = 0f;
 
     private Animator animator;
 
