@@ -90,4 +90,22 @@ public class CharacterPuppetry : MonoBehaviour
         animator.SetIKHintPosition(hint, target.position);
         animator.SetIKHintPositionWeight(hint, ikWeight);
     }
+
+     /// <summary>
+    /// Tell this character to IK–aim its RightHand at `target` with a full weight.
+    /// </summary>
+    public void GrabAt(Transform target)
+    {
+        leftHandTarget     = target;
+        leftHandIKWeight   = 1f;
+        // (optionally you could ramp weight up over time)
+    }
+
+    /// <summary>
+    /// Release the hand back to its default animation.
+    /// </summary>
+    public void ReleaseHand()
+    {
+        leftHandIKWeight = 0f;
+    }
 }
