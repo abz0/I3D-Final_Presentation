@@ -1402,23 +1402,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headTarget: {fileID: 9142616823155066160}
-  headIKWeight: 1
+  headIKWeight: 0
   rightElbowTarget: {fileID: 6209548671342529753}
-  rightElbowIKWeight: 1
+  rightElbowIKWeight: 0
   rightHandTarget: {fileID: 5345438124669418082}
-  rightHandIKWeight: 1
+  rightHandIKWeight: 0
   leftElbowTarget: {fileID: 1402962933962356314}
-  leftElbowIKWeight: 1
+  leftElbowIKWeight: 0
   leftHandTarget: {fileID: 8861745900257818145}
-  leftHandIKWeight: 1
+  leftHandIKWeight: 0
   rightKneeTarget: {fileID: 7593577942176364939}
-  rightKneeIKWeight: 1
+  rightKneeIKWeight: 0
   rightFootTarget: {fileID: 8774514199617638552}
-  rightFootIKWeight: 1
+  rightFootIKWeight: 0
   leftKneeTarget: {fileID: 4484351778938227885}
-  leftKneeIKWeight: 1
+  leftKneeIKWeight: 0
   leftFootTarget: {fileID: 8325144946415902583}
-  leftFootIKWeight: 1
+  leftFootIKWeight: 0
 --- !u!1 &7355360200238196903
 GameObject:
   m_ObjectHideFlags: 0
