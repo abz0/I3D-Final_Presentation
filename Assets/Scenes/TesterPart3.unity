@@ -167,21 +167,28 @@ PlayableDirector:
     value: {fileID: 488046674}
   - key: {fileID: 4359796840689293220, guid: 7cb3bf26aae1ffc4c806a72556e03559, type: 2}
     value: {fileID: 1188691399}
+  - key: {fileID: 2214266439080455540, guid: 7cb3bf26aae1ffc4c806a72556e03559, type: 2}
+    value: {fileID: 980791210}
   m_ExposedReferences:
     m_References:
+    - a883fa8621b2eef4b8fc469aac77cc45: {fileID: 980791209}
+    - 20ca118c67d06f3418d5468b2e0ed1dc: {fileID: 980791208}
     - 3f9e5491113e2fc48973db987d6c2081: {fileID: 488046677}
     - ec5def9c79b18cc489fecbb355a032b4: {fileID: 726637961}
     - a3929f9a7c3d8b0408da96b12525c759: {fileID: 726637961}
     - d40836c475454ec4884eae7543a47f07: {fileID: 488046676}
+    - 23181c7af14318e43956046f3e80e877: {fileID: 980791207}
     - 7d5db77783b130e43946d8ad4868c7db: {fileID: 980791203}
     - f808cf47629a98246becd864a0212a60: {fileID: 980791203}
     - 76ecac03bf3e5ae41a347065c399f30a: {fileID: 1339365535}
     - fcffe3e05dc4e37409888e624535accc: {fileID: 1303519400}
     - 85da63366846a1d4ab0b8edfd7cb9532: {fileID: 1303519400}
     - f2ba153ca18afc34f91ed218c1e6c833: {fileID: 980791204}
+    - ab1c31d5b28ccea41b53afce54d1e656: {fileID: 0}
     - 89b5c83429a29204f8288c1d6bc494b2: {fileID: 1768541309}
     - d3cad1486f49783458f87042e5f842a1: {fileID: 980791204}
     - 10002c71f01eb1b4cac68fc205bb0d0e: {fileID: 1339365535}
+    - 002ee102a9dccd9458d3d23ef2d0a248: {fileID: 980791205}
     - 48b8f26725f89ac4484b524600500cde: {fileID: 1768541309}
     - 04909d048dd14634ba2154ac9246c542: {fileID: 488046675}
 --- !u!4 &124274664
@@ -199,6 +206,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &378808409 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4484351778938227885, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+  m_PrefabInstance: {fileID: 980791201}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &488046671
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -713,6 +725,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: Liam Right Knee Target
       objectReference: {fileID: 0}
+    - target: {fileID: 3559000271393297850, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+      propertyPath: leftKneeTarget
+      value: 
+      objectReference: {fileID: 378808409}
+    - target: {fileID: 3559000271393297850, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+      propertyPath: leftElbowTarget
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559000271393297850, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+      propertyPath: leftFootIKWeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559000271393297850, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+      propertyPath: leftHandIKWeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559000271393297850, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+      propertyPath: leftKneeIKWeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559000271393297850, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+      propertyPath: rightElbowTarget
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559000271393297850, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+      propertyPath: rightFootIKWeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559000271393297850, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+      propertyPath: rightHandIKWeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559000271393297850, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+      propertyPath: rightKneeIKWeight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5646520473477756789, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
       propertyPath: m_Name
       value: Liam Right Hand Target
@@ -788,7 +836,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7242580395381890657, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 980791210}
   m_SourcePrefab: {fileID: 100100000, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
 --- !u!95 &980791202 stripped
 Animator:
@@ -811,6 +862,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9142616823155066160, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
   m_PrefabInstance: {fileID: 980791201}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &980791205 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8861745900257818145, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+  m_PrefabInstance: {fileID: 980791201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &980791206 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7242580395381890657, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+  m_PrefabInstance: {fileID: 980791201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &980791207 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8774514199617638552, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+  m_PrefabInstance: {fileID: 980791201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &980791208 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5345438124669418082, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+  m_PrefabInstance: {fileID: 980791201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &980791209 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8325144946415902583, guid: e3128451d3b1c1b45af8aeca448be107, type: 3}
+  m_PrefabInstance: {fileID: 980791201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &980791210
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980791206}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1188691397 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1925884301134538264, guid: 2977b5bef65a24148894533e297ecd00, type: 3}
